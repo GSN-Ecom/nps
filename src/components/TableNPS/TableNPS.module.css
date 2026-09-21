@@ -1,0 +1,395 @@
+.rankingTable,
+.customerTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 3% 10vw;
+}
+
+/* bloco para controlar scroll tabela de verbalizações */
+.blockTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 65dvh;
+  overflow-y: auto;
+}
+
+.verbCustomer h1 {
+  margin-bottom: 1rem;
+}
+
+.rankingTable {
+  background: var(--ap-primary);
+}
+
+.HeaderTable {
+  display: flex;
+  background-color: var(--gray-09);
+  padding: 0.25rem;
+  border-radius: 8px 8px 0 0;
+  gap: 1px;
+}
+.HeaderTable .cell {
+  color: var(--aux-white);
+}
+
+.HeaderTable .cell:nth-child(7) {
+  border-radius: 4px 0 0 4px;
+}
+
+.HeaderTable .cell:nth-child(17) {
+  border-radius: 0 4px 4px 0;
+}
+
+.rowTable .cell:nth-child(7):hover,
+.rowTable .cell:nth-child(8):hover,
+.rowTable .cell:nth-child(9):hover,
+.rowTable .cell:nth-child(10):hover,
+.rowTable .cell:nth-child(11):hover,
+.rowTable .cell:nth-child(12):hover,
+.rowTable .cell:nth-child(13):hover {
+  background: var(--aux-red-02);
+}
+
+.rowTable .cell:nth-child(14):hover,
+.rowTable .cell:nth-child(15):hover {
+  background: var(--aux-yellow-02);
+}
+
+.rowTable .cell:nth-child(16):hover,
+.rowTable .cell:nth-child(17):hover {
+  background: var(--aux-green-02);
+}
+
+.rowTable {
+  display: flex;
+  background: var(--gray-01);
+  padding: 0.25rem;
+  gap: 1px;
+}
+
+.rowBg {
+  background: var(--gray-02);
+}
+
+.rowTable:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.rowRnkStores:nth-last-child(-n + 2) {
+  background: rgba(255, 227, 227);
+}
+
+.cell {
+  padding: 0.125rem 0.25rem;
+  flex: 0.3;
+  text-align: center;
+  align-content: center;
+}
+
+/* tamanho das células, desktop */
+.cell:first-child {
+  flex: 0.3;
+}
+
+.cell:nth-child(2) {
+  flex: 1.3;
+  text-align: left;
+}
+
+.cell:nth-child(3),
+.cell:nth-child(5),
+.cell:nth-child(6) {
+  flex: 0.4;
+}
+
+.cell:nth-child(4) {
+  flex: 0.6;
+}
+
+.cell:last-child {
+  flex: 2.5;
+  text-align: left;
+  padding-left: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.growth {
+  background: var(--aux-green);
+  color: var(--aux-white);
+}
+.regression {
+  background: var(--aux-red);
+  color: var(--aux-white);
+}
+.neutros {
+  background: var(--aux-yellow);
+  color: var(--gray-06);
+}
+.stable {
+  background: var(--gray-02);
+  color: var(--gray-06);
+}
+
+.mobileView {
+  display: none;
+}
+
+/* customização celulas tabela de verbalizações */
+.verbCustomer .rowTable,
+.verbCustomer .HeaderTable {
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.verbCustomer .rowTable .cell,
+.verbCustomer .HeaderTable .cell {
+  flex: 1;
+  text-align: left;
+  padding: 0 0.3rem;
+}
+
+.verbCustomer .rowTable {
+  border: 1px solid #ffffff00;
+}
+
+.verbCustomer .rowTable:hover {
+  border: 1px solid var(--aux-yellow);
+  border-radius: var(--radius-small);
+}
+
+.verbCustomer .rowTable:hover .cell {
+  background: rgb(252, 250, 232);
+}
+
+.verbCustomer .cell:nth-child(1),
+.verbCustomer .cell.cell:nth-child(3) {
+  flex: 0.25;
+  text-align: center;
+  padding-bottom: 0.25rem;
+}
+
+.verbCustomer .cell:nth-child(2) {
+  flex: 0.6;
+  padding-bottom: 0.25rem;
+}
+
+.verbCustomer .cell:nth-child(3) {
+  flex: 0.4;
+  padding-bottom: 0.25rem;
+}
+
+.verbCustomer .cell:nth-child(4) {
+  flex: 0.6;
+  padding-bottom: 0.25rem;
+}
+.verbCustomer .cell:nth-child(5) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 0.25rem;
+}
+
+.verbCustomer .cell:nth-child(6) {
+  flex: 0.6;
+  padding-bottom: 0.25rem;
+}
+
+.verbCustomer .cell:nth-child(7) {
+  flex: 0.9;
+  padding-bottom: 0.25rem;
+}
+
+.verbCustomer .rowTable .cell:nth-child(8) {
+  border-top: 1px dotted var(--gray-04);
+  flex: 1;
+  padding: 0.5rem 1rem 0.25rem 1rem !important;
+  min-width: 100%;
+  height: fit-content;
+}
+
+.verbCustomer .rowTable .cell:nth-child(9) {
+  flex: 1;
+  padding: 0rem 1rem 0.25rem 1rem !important;
+  min-width: 100%;
+  white-space: wrap;
+  padding-bottom: 0.25rem;
+  font-style: italic;
+  height: fit-content !important;
+}
+
+/* customização nota detrator, neutro, promotor em verbalizações */
+.ntProm {
+  color: var(--aux-green) !important;
+}
+.ntNeut {
+  color: var(--aux-yellow) !important;
+}
+
+.ntDetr {
+  color: var(--aux-red) !important;
+}
+
+/* resumo quantidade de respostas */
+.respNumTotal {
+  padding-bottom: 0.5rem;
+}
+
+/* customização pedidos no modal */
+.answerModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+.answerModalContent .row {
+  display: flex;
+  gap: 2.5rem;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.answerModalContent .col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+.answerModalContent .col:last-child {
+  flex: 0.6;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .rankingTable,
+  .verbCustomer {
+    padding: 3rem 10vw;
+  }
+
+  .deskView {
+    display: none;
+  }
+
+  .mobileView {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rowTable,
+  .HeaderTable {
+    flex-wrap: wrap;
+  }
+
+  .HeaderTable .cell:last-child {
+    display: none;
+  }
+
+  .HeaderTable .cell:first-child,
+  .rowTable .cell:first-child {
+    text-align: left;
+  }
+
+  .rowTable .cell:last-child {
+    min-width: 100%;
+    padding: 0.5rem 0.25rem;
+  }
+
+  /* tabela verbalizações */
+  .blockTable {
+    height: 55dvh;
+  }
+  .verbCustomer .cell:nth-child(5),
+  .verbCustomer .cell:nth-child(6),
+  .verbCustomer .cell:nth-child(7) {
+    display: none;
+  }
+
+  .verbCustomer .cell:nth-child(1) {
+    flex: 0.15;
+  }
+  .verbCustomer .cell:nth-child(2) {
+    flex: 0.8;
+  }
+  .verbCustomer .cell:nth-child(3) {
+    flex: 0.15;
+  }
+  .verbCustomer .cell:nth-child(4) {
+    flex: 0.6;
+  }
+}
+
+@media (max-width: 767px) {
+  .rankingTable,
+  .verbCustomer {
+    padding: 2rem 5vw;
+  }
+
+  .deskView {
+    display: none;
+  }
+
+  .mobileView {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rowTable,
+  .HeaderTable {
+    flex-wrap: wrap;
+  }
+
+  .rankingTable .HeaderTable .cell:last-child,
+  .rankingTable .HeaderTable .cell:nth-child(2),
+  .rankingTable .rowTable .cell:nth-child(2) {
+    display: none;
+  }
+
+  .rankingTable .HeaderTable .cell:first-child,
+  .rankingTable .rowTable .cell:first-child {
+    text-align: left;
+  }
+
+  .rankingTable .rowTable .cell:last-child {
+    min-width: 100%;
+    padding: 0.5rem 0.25rem;
+  }
+
+  /* tabela verbalizações */
+  .blockTable {
+    height: 55dvh;
+  }
+  .verbCustomer .cell:nth-child(5),
+  .verbCustomer .cell:nth-child(6),
+  .verbCustomer .cell:nth-child(7) {
+    display: none;
+  }
+
+  .verbCustomer .cell:nth-child(1) {
+    flex: 0.15;
+  }
+  .verbCustomer .cell:nth-child(2) {
+    flex: 0.8;
+  }
+  .verbCustomer .cell:nth-child(3) {
+    flex: 0.15;
+  }
+  .verbCustomer .cell:nth-child(4) {
+    flex: 0.6;
+  }
+
+  /* customização pedidos no modal */
+  .answerModalContent {
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .answerModalContent .row {
+    flex-direction: column;
+  }
+  .answerModalContent .col:last-child {
+    flex: 1;
+  }
+}

@@ -1,0 +1,130 @@
+.chartCanva :global(.p-chart) {
+  width: auto;
+  height: 400px;
+}
+
+.row {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.displayNotes {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-default);
+  width: 100%;
+  height: 72px;
+  margin: 1rem 0;
+}
+
+.noteBlock {
+  display: flex;
+  width: 100% !important;
+  flex-direction: column;
+  gap: 0.25rem;
+  justify-content: center;
+  text-align: center;
+  width: 72px;
+}
+.noteBlock .promotor,
+.noteBlock .promotor span {
+  color: var(--aux-green);
+}
+.noteBlock .neutro,
+.noteBlock .neutro span {
+  color: var(--aux-yellow);
+}
+.noteBlock .detrator,
+.noteBlock .detrator span {
+  color: var(--aux-red);
+}
+
+.displayNotes .viewNPS {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.displayNotes .viewNPS .textNPS {
+  font-size: 1rem;
+}
+.displayNotes .viewNPS .textNPS .value {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.growth,
+.regression,
+.stable {
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-small);
+  font-size: 0.875rem;
+}
+
+.growth {
+  background: var(--aux-green);
+  color: var(--aux-white);
+}
+
+.regression {
+  background: var(--aux-red);
+  color: var(--aux-white);
+}
+.stable {
+  background: var(--gray-02);
+  color: var(--gray-06);
+}
+
+.textSupport {
+  background: rgb(247, 243, 225);
+  width: 100%;
+  border: none;
+  height: 40px;
+  padding: 0.5rem;
+  text-align: center;
+  border-radius: var(--radius-default);
+  align-items: center;
+}
+.textSupport p {
+  width: 100%;
+  text-align: center;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .chartCanva :global(.p-chart) {
+    width: auto;
+    height: 400px;
+  }
+
+  .displayNotes {
+    width: 100%;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .displayNotes:first-child {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .chartCanva :global(.p-chart) {
+    width: auto;
+    height: 400px;
+  }
+
+  .displayNotes {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .displayNotes:first-child {
+    margin-top: 1rem;
+  }
+}
