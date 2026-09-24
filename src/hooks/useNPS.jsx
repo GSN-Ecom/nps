@@ -1,5 +1,8 @@
+import calcNPS from "../components/TableNPS/calcNPS";
 import dados from "../data/dados_AP_Ecom.json";
 import storesEcom from "../data/stores_AP_Ecom.json";
+
+const currentYear = new Date().getFullYear();
 
 function normalizeDate(date) {
   if (!date) return null;
@@ -23,46 +26,64 @@ function isSameDate(date1, date2) {
   );
 }
 
-function useY2Y(year) {
-  const currentYear = year;
+function months(ano) {
+  return Array.from({ length: 12 }, (_, index) => {
+    const mes = new Date(ano, index, 1)
+      .toLocaleString("pt-BR", {
+        month: "short",
+      })
+      .replace(".", "")
+      .replace(/^./, (letra) => letra.toUpperCase());
 
-  let currYear = [
-    { id: "Jan", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Fev", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Mar", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Abr", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Mai", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Jun", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Jul", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Ago", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Set", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Out", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Nov", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-    { id: "Dez", detratores: 0, neutros: 0, promotores: 0, nps: 0 },
-  ];
+    return {
+      id: mes,
+      detratores: 0,
+      neutros: 0,
+      promotores: 0,
+      nps: 0,
+    };
+  });
+}
 
-  let compYear = [
-    { id: "Jan", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Fev", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Mar", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Abr", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Mai", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Jun", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Jul", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Ago", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Set", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Out", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Nov", detratores: 0, neutros: 0, promotores: 0 },
-    { id: "Dez", detratores: 0, neutros: 0, promotores: 0 },
-  ];
+// calcular corte x substituicao por loja (mes vigente)
+function storeCutReplace(base) {
+  let currMonth = new Date().getMonth() + 1;
+  let dados = base.filter((e) => e.mes === currMonth && e.ano === currentYear);
 
-  // base ano atual
+  // validação mudança de mês e a base estiver sem dados, exibe o mês anterior
+  if (
+    dados.reduce((acc, val) => {
+      return acc + val.pedidos;
+    }, 0) === 0
+  ) {
+    dados = base.filter((e) => e.mes === currMonth - 1);
+  }
+
+  const dadosLojas = dados.map((e) => {
+    return {
+      store: e.loja,
+      corte: e.corteEfetivo,
+      substituicao: e.substituidos,
+      pedidos: e.pedidos,
+      month: currMonth,
+    };
+  });
+
+  return dadosLojas;
+}
+
+function useY2Y() {
+  // construção dos arrays com dados Y2Y
+  let currYear = months(currentYear);
+  let prevYear = months(currentYear - 1);
+
+  // base ano atual - 1. montagem
   const base = dados.filter((resp) => {
     const dataResp = new Date(resp.data);
-
     return dataResp.getUTCFullYear() === currentYear;
   });
 
+  // base ano atual - 2. contabilizar
   base.forEach((resp) => {
     const dataResp = new Date(resp.data);
     const month = dataResp.getUTCMonth();
@@ -71,71 +92,59 @@ function useY2Y(year) {
     if (review <= 6) {
       currYear[month].detratores++;
     }
-
     if (review >= 7 && review <= 8) {
       currYear[month].neutros++;
     }
-
     if (review >= 9 && review <= 10) {
       currYear[month].promotores++;
     }
   });
 
-  // comparativo ano anterior
+  // base ano atual - 3. calcular nota / mes
+  currYear.forEach((e) => {
+    const total = e.promotores + e.neutros + e.detratores;
+
+    if (total === 0) return (e.nps = 0);
+    e.nps = calcNPS([], e.detratores, e.neutros, e.promotores);
+  });
+
+  // inicio base comparativa ano anterior
+  // 1. montagem
   const baseComp = dados.filter((resp) => {
     const dataResp = new Date(resp.data);
 
     return dataResp.getUTCFullYear() === currentYear - 1;
   });
 
+  // base comparativo ano anterior - 2. contabilizar
   baseComp.forEach((resp) => {
     const dataResp = new Date(resp.data);
     const month = dataResp.getUTCMonth();
     const review = resp.nota_NPS;
 
     if (review <= 6) {
-      compYear[month].detratores++;
+      prevYear[month].detratores++;
     }
-
     if (review >= 7 && review <= 8) {
-      compYear[month].neutros++;
+      prevYear[month].neutros++;
     }
-
     if (review >= 9 && review <= 10) {
-      compYear[month].promotores++;
+      prevYear[month].promotores++;
     }
   });
 
-  currYear.forEach((e) => {
+  // base comparativo ano anterior - 3. calcular nota / mes
+  prevYear.forEach((e) => {
     const total = e.promotores + e.neutros + e.detratores;
 
-    if (total === 0) {
-      e.nps = 0;
-      return;
-    }
-
-    const calcNps = ((e.promotores - e.detratores) / total) * 100;
-
-    e.nps = Math.round(calcNps);
-  });
-
-  compYear.forEach((e) => {
-    const total = e.promotores + e.neutros + e.detratores;
-
-    if (total === 0) {
-      e.nps = 0;
-      return;
-    }
-
-    const calcNps = ((e.promotores - e.detratores) / total) * 100;
-
-    e.nps = Math.round(calcNps);
+    if (total === 0) return (e.nps = 0);
+    e.nps = calcNPS([], e.detratores, e.neutros, e.promotores);
   });
 
   return {
     currentYear,
     currYear,
-    compYear,
+    prevYear,
   };
 }
 
@@ -476,4 +485,40 @@ function useCalcNps(inicio, fim) {
   };
 }
 
-export { useCalcNps, useY2Y };
+function useCorteSubst(baseCorteSubst, filterStore) {
+  // construção dos arrays com dados Y2Y
+  let baseCurYear = months(currentYear).map((e) => e.id);
+  baseCurYear = {
+    label: baseCurYear,
+    pedidos: Array.from({ length: 12 }).fill(0),
+    corte: Array.from({ length: 12 }).fill(0),
+    substituicao: Array.from({ length: 12 }).fill(0),
+    lojas: [],
+  };
+
+  baseCorteSubst
+    .filter((e) => {
+      if (filterStore.name !== "Todas as lojas") {
+        return e.loja === filterStore.name;
+      }
+      return true;
+    })
+    .forEach((e) => {
+      if (e.ano !== currentYear) return;
+
+      const index = e.mes - 1;
+
+      baseCurYear.pedidos[index] += e.pedidos ?? 0;
+      baseCurYear.corte[index] += e.corteEfetivo ?? 0;
+      baseCurYear.substituicao[index] += e.substituidos ?? 0;
+    });
+
+  // construção dos dados por loja (current Year)
+  const storesCutReplace = storeCutReplace(baseCorteSubst);
+
+  // console.log(baseCorteSubst);
+
+  return { baseCurYear, storesCutReplace };
+}
+
+export { useCalcNps, useY2Y, useCorteSubst };

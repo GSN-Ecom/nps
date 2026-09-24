@@ -5,14 +5,24 @@ import styles from "./Charts.module.css";
 // legenda nos gráficos
 import { Chart as ChartJS } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-ChartJS.register(ChartDataLabels);
+import { Title } from "chart.js";
+ChartJS.register(ChartDataLabels, Title);
 
-export default function NPSReviews({
+function formatDate(date) {
+  return date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  });
+}
+
+export function NPSReviews({
   primaryData,
   secondaryData,
   typeChart,
   summary,
   year,
+  date,
 }) {
   const chartData = useMemo(() => {
     // Y2Y montagem base
@@ -44,6 +54,23 @@ export default function NPSReviews({
           : primaryData.map((e) => e.id),
 
       datasets: [
+        {
+          type: "line",
+          label: typeChart === "scale-nps" ? "Período Anterior" : year - 1,
+          borderColor: typeChart === "scale-nps" ? line : detr,
+          borderWidth: 1.5,
+          fill: false,
+          tension: typeChart === "scale-nps" ? 0.4 : 0.1,
+          data: typeChart === "scale-nps" ? secondaryData : compY2Y,
+          borderDash: [3, 3],
+          pointRadius: 1,
+          pointHoverRadius: 6,
+          pointBackgroundColor: typeChart === "scale-nps" ? line : detr,
+
+          datalabels: {
+            display: false,
+          },
+        },
         {
           type: "bar",
           label: typeChart === "scale-nps" ? "Período Atual" : year,
@@ -98,23 +125,6 @@ export default function NPSReviews({
           },
         },
 
-        {
-          type: "line",
-          label: typeChart === "scale-nps" ? "Período Anterior" : year - 1,
-          borderColor: typeChart === "scale-nps" ? line : detr,
-          borderWidth: 1.5,
-          fill: false,
-          tension: typeChart === "scale-nps" ? 0.4 : 0.1,
-          data: typeChart === "scale-nps" ? secondaryData : compY2Y,
-          borderDash: [3, 3],
-          pointRadius: 1,
-          pointHoverRadius: 6,
-          pointBackgroundColor: typeChart === "scale-nps" ? line : detr,
-
-          datalabels: {
-            display: false,
-          },
-        },
         ...(typeChart === "Y2Y"
           ? [
               {
@@ -160,6 +170,24 @@ export default function NPSReviews({
           labels: {
             color: textColPri,
           },
+        },
+
+        title: {
+          display: true,
+          text:
+            typeChart === "scale-nps"
+              ? `NPS Geral - ${formatDate(date.inicio)} até ${formatDate(date.fim)}`
+              : `NPS Geral: ${year - 1} x ${year}`,
+          color: textColPri,
+          font: {
+            size: 16,
+            weight: "bold",
+          },
+          padding: {
+            top: 10,
+            bottom: 20,
+          },
+          align: "start",
         },
       },
 
@@ -254,3 +282,256 @@ export default function NPSReviews({
     </>
   );
 }
+
+export function Operation({ primaryData, typeChart, year }) {
+  const chartData = useMemo(() => {
+    // Y2Y montagem base corte x substituicao ano atual
+    let corteY2Y = "";
+    let substY2Y = "";
+    let stores;
+
+    if (typeChart === "Y2Y") {
+      corteY2Y = primaryData.corte.map((e, i) => {
+        const pedidos = primaryData.pedidos[i];
+        return pedidos ? Math.round((e / pedidos) * 100) : null;
+      });
+      substY2Y = primaryData.substituicao.map((e, i) => {
+        const pedidos = primaryData.pedidos[i];
+        return pedidos ? Math.round((e / pedidos) * 100) : null;
+      });
+    } else if (typeChart === "stores") {
+      // construção do array com os dados de loja
+      stores = primaryData
+        .map((e) => {
+          return {
+            corte: e.pedidos ? Math.round((e.corte / e.pedidos) * 100) : null,
+            substituicao: e.pedidos
+              ? Math.round((e.substituicao / e.pedidos) * 100)
+              : null,
+            loja: e.store,
+            pedidos: e.pedidos,
+          };
+        })
+        .sort((a, b) => a.corte - b.corte);
+    }
+
+    // importando estilos para o gráfico
+    const docStyles = getComputedStyle(document.documentElement);
+
+    // paleta de cores
+    const cort = docStyles.getPropertyValue("--aux-red");
+    const sub = docStyles.getPropertyValue("--aux-green");
+    const line = docStyles.getPropertyValue("--gray-09");
+
+    return {
+      labels:
+        typeChart === "stores" ? stores.map((e) => e.loja) : primaryData.label,
+
+      datasets: [
+        {
+          type: "bar",
+          label:
+            typeChart === "stores"
+              ? "Substituição (loja)"
+              : "Substituição (" + year + ")",
+          backgroundColor: sub,
+          borderWidth: 0,
+          fill: false,
+          tension: 0.4,
+          data:
+            typeChart === "stores"
+              ? stores.map((e) => e.substituicao)
+              : substY2Y,
+          pointRadius: 1,
+          pointHoverRadius: 6,
+          pointBackgroundColor: sub,
+
+          datalabels: {
+            display: true,
+            formatter: (value) => {
+              return value !== null ? `${value}%` : "";
+            },
+            anchor: "end",
+            align: "top",
+            color: sub,
+            borderRadius: 4,
+            padding: 0.5,
+
+            backgroundColor: "#f8f8f8",
+            font: {
+              size: 13,
+              weight: "bold",
+            },
+          },
+        },
+        {
+          type: "line",
+          label:
+            typeChart === "stores" ? "Meta de subst. (loja)" : "Meta de subst.",
+          borderColor: line,
+          borderWidth: 1.5,
+          fill: false,
+          tension: 0.4,
+          data:
+            typeChart === "stores"
+              ? stores.map((e) => Math.round(e.corte * 0.8))
+              : corteY2Y.map((e) => Math.round(e * 0.8)),
+          borderDash: [3, 3],
+          pointRadius: 1,
+          pointHoverRadius: 3,
+          pointBackgroundColor: line,
+
+          datalabels: {
+            display: false,
+          },
+        },
+        {
+          type: "bar",
+          label:
+            typeChart === "stores" ? "Corte (loja)" : "Corte (" + year + ")",
+          backgroundColor: cort,
+          data: typeChart === "stores" ? stores.map((e) => e.corte) : corteY2Y,
+          borderColor: cort,
+          borderWidth: 0,
+
+          datalabels: {
+            display: true,
+            formatter: (value) => {
+              return value !== null ? `${value}%` : "";
+            },
+            anchor: "end",
+            align: "top",
+            color: cort,
+            borderRadius: 999,
+            padding: 5,
+
+            backgroundColor: "#f8f8f8",
+            font: {
+              size: 15,
+              weight: "bold",
+            },
+          },
+        },
+      ],
+    };
+  }, [primaryData, typeChart, year]);
+
+  // ref vertical dados do gráfico
+  const verticalLinePlugin = {
+    id: "verticalLine",
+
+    afterDraw: (chart) => {
+      const activeElements = chart.getActiveElements();
+
+      if (!activeElements.length) {
+        return;
+      }
+
+      const { ctx, chartArea } = chart;
+      const x = activeElements[0].element.x;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, chartArea.top);
+      ctx.lineTo(x, chartArea.bottom);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "#999";
+      ctx.setLineDash([3, 3]);
+      ctx.stroke();
+      ctx.restore();
+    },
+  };
+
+  const chartOptions = useMemo(() => {
+    // importando estilos para o gráfico
+    const docStyles = getComputedStyle(document.documentElement);
+
+    // textos
+    const textColSec = docStyles.getPropertyValue("--text");
+    const textColPri = docStyles.getPropertyValue("--text-h");
+
+    // border e line
+    const border = docStyles.getPropertyValue("--border");
+
+    return {
+      maintainAspectRatio: false,
+      aspectRatio: 0.6,
+
+      interaction: {
+        mode: "index",
+        intersect: false,
+      },
+
+      plugins: {
+        title: {
+          display: true,
+          text:
+            typeChart === "stores"
+              ? `Corte x Substituição por loja em ${new Date(year, primaryData[0].month - 1, 1).toLocaleString("pt-BR", { month: "long" })} ${year}`
+              : `Corte x Substituição ${year}`,
+          color: textColPri,
+          font: {
+            size: 16,
+            weight: "bold",
+          },
+          padding: {
+            top: 10,
+            bottom: 20,
+          },
+          align: "start",
+        },
+
+        legend: {
+          position: "bottom",
+          labels: {
+            color: textColPri,
+          },
+        },
+
+        tooltip: {
+          enabled: false,
+        },
+      },
+
+      scales: {
+        x: {
+          ticks: {
+            color: textColSec,
+          },
+
+          grid: {
+            color: border,
+          },
+        },
+
+        y: {
+          min: 0,
+          max: 100,
+          ticks: {
+            color: textColSec,
+            callback: (value) => `${value}%`,
+          },
+
+          grid: {
+            color: border,
+          },
+        },
+      },
+    };
+  }, [typeChart, year, primaryData]);
+
+  return (
+    <>
+      <div className={`${"card"} ${styles.chartCanva}`}>
+        <Chart
+          type="line"
+          data={chartData}
+          options={chartOptions}
+          plugins={[verticalLinePlugin]}
+        />
+      </div>
+    </>
+  );
+}
+
+export default { NPSReviews, Operation };

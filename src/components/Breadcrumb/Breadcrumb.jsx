@@ -5,8 +5,6 @@ import IconVerb from "../../assets/icons/IconVerb";
 import IconArrow from "../../assets/icons/IconArrow";
 
 const Breadcrumb = ({ pathname }) => {
-  console.log(pathname);
-
   if (pathname === "/") return;
 
   return (

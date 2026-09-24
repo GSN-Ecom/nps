@@ -1,13 +1,24 @@
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect, createContext, useMemo } from "react";
 import storesList from "../data/stores_AP_Ecom.json";
 import lastUpdate from "../data/lastUpdate.json";
+import corteSubst_AP from "../data/corteSubst";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const GlobalContext = createContext();
 
 export function GlobalContextProvider({ children }) {
-  // tipo de relatorio: loja fisica ou ecom
-  const [report, setReport] = useState("ecom");
+  // controle de base para consulta
+  const [reportCortSub, setReportCortSub] = useState(corteSubst_AP);
+
+  const [storeCortSub, setStoreCortSub] = useState({ name: "Todas as lojas" });
+
+  const filterCortSub = useMemo(
+    () =>
+      ["Todas as lojas", ...new Set(reportCortSub.map((e) => e.loja))].map(
+        (loja) => ({ name: loja }),
+      ),
+    [reportCortSub],
+  );
 
   // data e ano referencia para relatorios
   const [date, setDate] = useState(() => {
@@ -63,17 +74,23 @@ export function GlobalContextProvider({ children }) {
     entrega: [],
   });
 
+  const [page, setPage] = useState({
+    inicio: 0,
+    fim: 10,
+    total: 0,
+  });
+
   return (
     <GlobalContext.Provider
       value={{
+        reportCortSub,
+        setReportCortSub,
         date,
         setDate,
         stores,
         setStores,
         selectedStore,
         setSelectedStore,
-        report,
-        setReport,
         lastUpdate,
         filter,
         setFilter,
@@ -85,6 +102,11 @@ export function GlobalContextProvider({ children }) {
         setDetrList,
         selectedDetr,
         setSelectedDetr,
+        filterCortSub,
+        storeCortSub,
+        setStoreCortSub,
+        page,
+        setPage,
       }}>
       {children}
     </GlobalContext.Provider>

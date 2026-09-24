@@ -1,39 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
-import styles from "./TableNPS.module.css";
-import { Title } from "../Title/Title";
-import { useGlobal } from "../../hooks/useGlobal";
-import FiltersVerb from "../Filters/FiltersVerb";
-import useModal from "../../hooks/useModal";
-import Modal from "../Modal/Modal";
 import { useLocation } from "react-router-dom";
+
+// estilizacao
+import styles from "./TableNPS.module.css";
+
+// componentes
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
+import { Title } from "../Title/Title";
+import FiltersVerb from "../Filters/FiltersVerb";
+import Modal from "../Modal/Modal";
 
-function calcNPS(arr) {
-  let prom = 0;
-  let neut = 0;
-  let detr = 0;
+// hooks
+import useModal from "../../hooks/useModal";
+import { useGlobal } from "../../hooks/useGlobal";
 
-  arr.forEach((e, index) => {
-    if (index <= 6) {
-      detr += e;
-    }
-
-    if (index >= 7 && index <= 8) {
-      neut += e;
-    }
-
-    if (index >= 9) {
-      prom += e;
-    }
-  });
-
-  const calc = Math.round(((prom - detr) / (prom + neut + detr)) * 100);
-  return !Number.isNaN(calc) ? calc : "-";
-}
+// funcoes utilitarias
+import calcNPS from "./calcNPS";
+import Pagination from "../Pagination/Pagination";
 
 // construção do componente de tabela
 const TableNPS = ({ dados }) => {
   const tags = ["Det", "Neu", "Pro"];
+  const headerTable = ["Loja", "Nome", "Atual", "Dif.", "Antes", "Resp."];
 
   const table = useMemo(() => {
     return dados
@@ -73,12 +61,12 @@ const TableNPS = ({ dados }) => {
   return (
     <div className={styles.rankingTable}>
       <div className={styles.HeaderTable}>
-        <p className={`${"textDefault"} ${styles.cell}`}>Loja</p>
-        <p className={`${"textDefault"} ${styles.cell}`}>Nome</p>
-        <p className={`${"textDefault"} ${styles.cell}`}>Atual</p>
-        <p className={`${"textDefault"} ${styles.cell}`}>Dif.</p>
-        <p className={`${"textDefault"} ${styles.cell}`}>Antes</p>
-        <p className={`${"textDefault"} ${styles.cell}`}>Resp.</p>
+        {headerTable &&
+          headerTable.map((e) => (
+            <p key={e} className={`${"textDefault"} ${styles.cell}`}>
+              {e}
+            </p>
+          ))}
         {Array.from({ length: 11 }, (_, i) => {
           return (
             <p
@@ -209,6 +197,7 @@ const TableNPS = ({ dados }) => {
   );
 };
 
+// verbalizações tabela
 const CustomerResp = ({ dados }) => {
   const {
     setFilter,
@@ -218,6 +207,8 @@ const CustomerResp = ({ dados }) => {
     detrList,
     setDetrList,
     selectedDetr,
+    page,
+    setPage,
   } = useGlobal();
 
   // modal pedido/cliente
@@ -287,9 +278,17 @@ const CustomerResp = ({ dados }) => {
         detrTag.det_macro?.toLowerCase().includes(selectedDetr.toLowerCase()),
       );
     }
-
     return ordenado;
   }, [dados, selectedStore, selectedDelivery, selectedRating, selectedDetr]);
+
+  // denfinindo tamanho do array para paginação
+  useEffect(() => {
+    setPage(() => ({
+      inicio: 0,
+      fim: 10,
+      total: tableVerb.length,
+    }));
+  }, [tableVerb.length, setPage]);
 
   // reunir resultado detratores (micro)
   function detMicro(arr) {
@@ -415,8 +414,6 @@ const CustomerResp = ({ dados }) => {
     );
   }
 
-  // const testeX = answerContent(teste);
-
   return (
     <>
       <Modal
@@ -442,7 +439,7 @@ const CustomerResp = ({ dados }) => {
         </div>
         <div className={styles.blockTable}>
           {tableVerb &&
-            tableVerb.map((verb, i) => {
+            tableVerb.slice(page.inicio, page.fim).map((verb, i) => {
               return (
                 <div
                   key={i}
@@ -497,6 +494,7 @@ const CustomerResp = ({ dados }) => {
               );
             })}
         </div>
+        <Pagination />
       </div>
     </>
   );

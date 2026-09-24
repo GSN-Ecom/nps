@@ -24,6 +24,9 @@ export default function Header() {
         <NavLink to="/respostas" className={styles.link}>
           <p className="textDefault">Respostas</p>
         </NavLink>
+        <a href="#operation" className={styles.link}>
+          <p className="textDefault">Corte x Substituição</p>
+        </a>
         <a href="#duvidas" className={styles.link}>
           <p className="textDefault">Dúvidas</p>
         </a>
