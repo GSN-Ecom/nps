@@ -14,6 +14,7 @@ const Pagination = () => {
       inicio: page.inicio - 10,
       fim: page.fim - 10,
     });
+    window.scrollTo(0, 0);
   }
 
   function nextPage() {
@@ -22,6 +23,7 @@ const Pagination = () => {
       inicio: page.inicio + 10,
       fim: page.fim + 10,
     });
+    window.scrollTo(0, 0);
   }
 
   return (

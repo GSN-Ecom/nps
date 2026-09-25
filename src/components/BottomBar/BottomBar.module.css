@@ -9,7 +9,6 @@
     left: 0;
     display: flex;
     width: 100%;
-    gap: 1.5rem;
     align-items: center;
     align-self: stretch;
     justify-content: space-between;
@@ -44,14 +43,13 @@
     left: 0;
     display: flex;
     width: 100%;
-    gap: 1.5rem;
     align-items: center;
     align-self: stretch;
     justify-content: space-between;
     box-sizing: border-box;
     background-color: var(--bg-02);
     box-shadow: var(--shadow);
-    padding: 0.75rem 5dvw;
+    padding: 0.75rem 2dvw;
     z-index: 9999;
   }
   .slot {

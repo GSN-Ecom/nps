@@ -1,0 +1,138 @@
+.blockTableDetr {
+  margin: 3rem 0;
+}
+
+.tableDetrYear {
+  background: var(--aux-red);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px 6px 0 0;
+}
+
+.titleTable {
+  color: var(--aux-white) !important;
+}
+
+.header,
+.contentTable {
+  display: flex;
+  gap: 0;
+  padding: 0.25rem 0;
+}
+
+.header {
+  background: var(--gray-09);
+}
+.header .slot,
+.contentTable .slot {
+  display: flex;
+  justify-content: center;
+  padding: 0.25rem;
+  flex: 0.3;
+  align-items: center;
+}
+.header .slot:first-child,
+.contentTable .slot:first-child {
+  padding: 0.25rem 0.5rem;
+  flex: 1;
+  justify-content: flex-start;
+}
+.header .slot p {
+  color: var(--aux-white);
+}
+
+/* conteudo da tabela */
+.contentTable {
+  background: var(--aux-white);
+  padding: 0;
+  border: 1px solid #f0f0f000;
+}
+.contentTable:last-child {
+  border-radius: 0 0 6px 6px;
+}
+.contentTable:hover {
+  border: 1px solid #b1b1b1;
+}
+.bgRow {
+  background: var(--gray-01);
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .blockTableDetr {
+    margin: 2rem 0;
+  }
+  .header .slot:first-child,
+  .contentTable .slot:first-child {
+    flex: 2;
+    width: 100%;
+    min-width: 160px;
+    max-width: 160px;
+  }
+
+  .header .slot:first-child p,
+  .contentTable .slot:first-child p {
+    font-size: 12px;
+  }
+
+  .header .slot,
+  .contentTable .slot {
+    flex: 0.4;
+  }
+
+  .header .slot p,
+  .contentTable .slot p {
+    font-size: 12px;
+  }
+
+  .header .slot {
+    transform: rotate(-90deg);
+    height: 44px;
+    padding: 0;
+  }
+  .header .slot:first-child {
+    transform: rotate(0);
+    /* height: 80px; */
+  }
+}
+
+@media (max-width: 767px) {
+  .blockTableDetr {
+    margin: 2rem 0;
+  }
+  .header .slot:first-child,
+  .contentTable .slot:first-child {
+    flex: 2;
+    width: 100%;
+    min-width: 88px;
+    max-width: 88px;
+  }
+
+  .header .slot:first-child p,
+  .contentTable .slot:first-child p {
+    font-size: 11px;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .header .slot,
+  .contentTable .slot {
+    flex: 0.4;
+  }
+
+  .header .slot p,
+  .contentTable .slot p {
+    font-size: 11px;
+  }
+
+  .header .slot {
+    transform: rotate(-90deg);
+    height: 44px;
+    padding: 0;
+  }
+  .header .slot:first-child {
+    transform: rotate(0);
+    /* height: 80px; */
+  }
+}

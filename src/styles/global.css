@@ -148,16 +148,18 @@ span {
   color: var(--ap-primary);
 }
 
-/* filter feedback */
 .filterRow {
   display: flex;
-  gap: 1rem;
-  align-items: end;
+  justify-content: flex-end;
+  margin-bottom: -3rem;
+  z-index: 1;
 }
-.filterFeedback {
-  padding: 0.75rem 1rem;
-  background: var(--aux-yellow-02);
-  border-radius: var(--radius-small);
+
+.slotStoreFilter {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -172,6 +174,10 @@ span {
   }
   .contentColChart {
     width: 100%;
+  }
+
+  .filterRow {
+    flex-direction: column;
   }
 }
 
@@ -190,5 +196,16 @@ span {
   }
   .contentColChart {
     width: 100%;
+  }
+
+  .contentColCorteSubst {
+    flex-direction: column-reverse;
+  }
+  .slotStoreFilter :global(.p-dropdown) {
+    width: 100%;
+  }
+  .filterRow {
+    justify-content: center;
+    margin-bottom: 2rem;
   }
 }

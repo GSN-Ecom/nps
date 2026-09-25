@@ -21,15 +21,18 @@ export default function Header() {
         <div className={styles.selectStore}></div>
       </div>
       <div className={styles.listLinks}>
+        <NavLink to="/detratores" className={styles.link}>
+          <p className="textDefault">Detratores</p>
+        </NavLink>
         <NavLink to="/respostas" className={styles.link}>
           <p className="textDefault">Respostas</p>
         </NavLink>
-        <a href="#operation" className={styles.link}>
+        <NavLink to="/corte-substituicao" className={styles.link}>
           <p className="textDefault">Corte x Substituição</p>
-        </a>
-        <a href="#duvidas" className={styles.link}>
+        </NavLink>
+        {/* <a href="#duvidas" className={styles.link}>
           <p className="textDefault">Dúvidas</p>
-        </a>
+        </a> */}
         <NavLink
           to=""
           className={`${styles.link} ${styles.changeReport}`}

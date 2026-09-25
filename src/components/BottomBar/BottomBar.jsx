@@ -1,10 +1,11 @@
 import styles from "./BottomBar.module.css";
 import { NavLink } from "react-router-dom";
 import IconHome from "../../assets/icons/IconHome";
-import IconQuestion from "../../assets/icons/IconQuestion";
+import IconChange from "../../assets/icons/IconChange";
 import IconVerb from "../../assets/icons/IconVerb";
 import IconMenu from "../../assets/icons/IconMenu";
 import useModal from "../../hooks/useModal";
+import IconDetrator from "../../assets/icons/IconDetrator";
 import Modal from "../Modal/Modal";
 
 // PENDENCIAS
@@ -27,10 +28,24 @@ export default function BottomBar() {
           <IconVerb className="icon" width="24px" height="24px" />
           <p className="textLabel">Respostas</p>
         </NavLink>
-        <a href="#duvidas" className={`${styles.slot}`}>
-          <IconQuestion className="icon" width="24px" height="24px" />
-          <p className="textLabel">Ajuda</p>
-        </a>
+        <NavLink to="/detratores" className={`${styles.slot}`}>
+          <IconDetrator
+            className="icon"
+            width="24px"
+            height="24px"
+            color="var(--gray-08)"
+          />
+          <p className="textLabel">Detratores</p>
+        </NavLink>
+        <NavLink to="/corte-substituicao" className={`${styles.slot}`}>
+          <IconChange
+            className="icon"
+            width="24px"
+            height="24px"
+            color="var(--gray-08)"
+          />
+          <p className="textLabel">Cort/Subst.</p>
+        </NavLink>
         <NavLink to="" className={`${styles.slot}`} onClick={() => openModal()}>
           <IconMenu className="icon" width="28px" height="28px" />
           <p className="textLabel">Menu</p>

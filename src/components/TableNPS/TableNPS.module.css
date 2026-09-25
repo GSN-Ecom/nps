@@ -298,9 +298,6 @@
   }
 
   /* tabela verbalizações */
-  .blockTable {
-    height: 55dvh;
-  }
   .verbCustomer .cell:nth-child(5),
   .verbCustomer .cell:nth-child(6),
   .verbCustomer .cell:nth-child(7) {
@@ -359,9 +356,6 @@
   }
 
   /* tabela verbalizações */
-  .blockTable {
-    height: 55dvh;
-  }
   .verbCustomer .cell:nth-child(5),
   .verbCustomer .cell:nth-child(6),
   .verbCustomer .cell:nth-child(7) {

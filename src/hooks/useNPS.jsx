@@ -1,6 +1,7 @@
 import calcNPS from "../components/TableNPS/calcNPS";
 import dados from "../data/dados_AP_Ecom.json";
 import storesEcom from "../data/stores_AP_Ecom.json";
+import calcVerb from "./useDetratores";
 
 const currentYear = new Date().getFullYear();
 
@@ -150,7 +151,6 @@ function useY2Y() {
 
 function useCalcNps(inicio, fim) {
   const notasDefault = () => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
   // construção da tabela de notas
   const storesTableNPS = storesEcom
     .filter((e) => e.numStore !== 0)
@@ -343,7 +343,7 @@ function useCalcNps(inicio, fim) {
       }
     });
 
-    // contabilizar detratores, neutros e promotores no período selecionado
+    // Ecom - detratores, neutros e promotores no período selecionado
     const NeutPromMacro = ["neut_prom_macro"];
     const listDetrMacro = ["det_macro"];
     const listDetrMicro = [
@@ -355,31 +355,6 @@ function useCalcNps(inicio, fim) {
       "det_preco",
       "det_produto",
     ];
-
-    const calcVerb = (dados, arr) => {
-      const campos = arr;
-      const contador = {};
-
-      dados.forEach((resp) => {
-        campos.forEach((campo) => {
-          const texto = resp[campo];
-
-          if (!texto) return;
-
-          const textos = texto
-            .split(/[,;]/)
-            .map((e) => e.trim().toLowerCase())
-            .filter(Boolean);
-
-          textos.forEach((t) => (contador[t] = (contador[t] || 0) + 1));
-        });
-      });
-
-      return Object.entries(contador).map(([texto, quantidade]) => ({
-        texto,
-        quantidade,
-      }));
-    };
 
     // direcionando as respostas para a respectiva loja
     storesTableNPS.forEach((store) => {
@@ -521,4 +496,4 @@ function useCorteSubst(baseCorteSubst, filterStore) {
   return { baseCurYear, storesCutReplace };
 }
 
-export { useCalcNps, useY2Y, useCorteSubst };
+export { useCalcNps, useY2Y, useCorteSubst, normalizeDate };

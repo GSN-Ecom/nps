@@ -62,6 +62,7 @@ export function NPSReviews({
           fill: false,
           tension: typeChart === "scale-nps" ? 0.4 : 0.1,
           data: typeChart === "scale-nps" ? secondaryData : compY2Y,
+          pointStyle: "line",
           borderDash: [3, 3],
           pointRadius: 1,
           pointHoverRadius: 6,
@@ -135,6 +136,7 @@ export function NPSReviews({
                 fill: false,
                 tension: 0,
                 data: primaryData.map(() => 60),
+                pointStyle: "line",
                 pointRadius: 0,
                 pointHoverRadius: 6,
                 pointBackgroundColor: line,
@@ -168,6 +170,7 @@ export function NPSReviews({
         legend: {
           position: "bottom",
           labels: {
+            usePointStyle: true,
             color: textColPri,
           },
         },
@@ -320,30 +323,33 @@ export function Operation({ primaryData, typeChart, year }) {
 
     // paleta de cores
     const cort = docStyles.getPropertyValue("--aux-red");
-    const sub = docStyles.getPropertyValue("--aux-green");
-    const line = docStyles.getPropertyValue("--gray-09");
+    const sub = docStyles.getPropertyValue("--gray-09");
+    const line = docStyles.getPropertyValue("--aux-yellow");
 
     return {
       labels:
-        typeChart === "stores" ? stores.map((e) => e.loja) : primaryData.label,
+        typeChart === "stores"
+          ? stores.map((e) => e.loja.replace(/\D/g, "").slice(0, 3))
+          : primaryData.label,
 
       datasets: [
         {
-          type: "bar",
+          type: "line",
           label:
             typeChart === "stores"
-              ? "Substituição (loja)"
+              ? "Substituição"
               : "Substituição (" + year + ")",
-          backgroundColor: sub,
-          borderWidth: 0,
+          borderColor: sub,
+          borderWidth: 1.5,
           fill: false,
           tension: 0.4,
           data:
             typeChart === "stores"
               ? stores.map((e) => e.substituicao)
               : substY2Y,
+          pointStyle: "line",
           pointRadius: 1,
-          pointHoverRadius: 6,
+          pointHoverRadius: 3,
           pointBackgroundColor: sub,
 
           datalabels: {
@@ -352,33 +358,30 @@ export function Operation({ primaryData, typeChart, year }) {
               return value !== null ? `${value}%` : "";
             },
             anchor: "end",
-            align: "top",
+            align: "bottom",
             color: sub,
-            borderRadius: 4,
-            padding: 0.5,
 
-            backgroundColor: "#f8f8f8",
             font: {
-              size: 13,
+              size: 12,
               weight: "bold",
             },
           },
         },
         {
           type: "line",
-          label:
-            typeChart === "stores" ? "Meta de subst. (loja)" : "Meta de subst.",
-          borderColor: line,
-          borderWidth: 1.5,
+          label: typeChart === "stores" ? "Meta de subst." : "Meta de subst.",
+          borderColor: "#fad70e",
+          borderWidth: 2,
           fill: false,
           tension: 0.4,
           data:
             typeChart === "stores"
               ? stores.map((e) => Math.round(e.corte * 0.8))
               : corteY2Y.map((e) => Math.round(e * 0.8)),
-          borderDash: [3, 3],
-          pointRadius: 1,
-          pointHoverRadius: 3,
+          borderDash: [2, 2],
+          pointStyle: "line",
+          pointRadius: 0,
+          pointHoverRadius: 2,
           pointBackgroundColor: line,
 
           datalabels: {
@@ -387,8 +390,7 @@ export function Operation({ primaryData, typeChart, year }) {
         },
         {
           type: "bar",
-          label:
-            typeChart === "stores" ? "Corte (loja)" : "Corte (" + year + ")",
+          label: typeChart === "stores" ? "Corte" : "Corte (" + year + ")",
           backgroundColor: cort,
           data: typeChart === "stores" ? stores.map((e) => e.corte) : corteY2Y,
           borderColor: cort,
@@ -402,12 +404,9 @@ export function Operation({ primaryData, typeChart, year }) {
             anchor: "end",
             align: "top",
             color: cort,
-            borderRadius: 999,
-            padding: 5,
 
-            backgroundColor: "#f8f8f8",
             font: {
-              size: 15,
+              size: 13,
               weight: "bold",
             },
           },
@@ -467,7 +466,7 @@ export function Operation({ primaryData, typeChart, year }) {
           display: true,
           text:
             typeChart === "stores"
-              ? `Corte x Substituição por loja em ${new Date(year, primaryData[0].month - 1, 1).toLocaleString("pt-BR", { month: "long" })} ${year}`
+              ? `Corte x Subst. - ${new Date(year, primaryData[0].month - 1, 1).toLocaleString("pt-BR", { month: "long" })} ${year}`
               : `Corte x Substituição ${year}`,
           color: textColPri,
           font: {
@@ -484,6 +483,7 @@ export function Operation({ primaryData, typeChart, year }) {
         legend: {
           position: "bottom",
           labels: {
+            usePointStyle: true,
             color: textColPri,
           },
         },

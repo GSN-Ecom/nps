@@ -12,7 +12,9 @@ const Filters = () => {
     <>
       <div className="blockTitle">
         <Breadcrumb pathname={useLocation().pathname} />
-        <div className={`${"contentRow"} ${styles.titleFilters}`}>
+        <div
+          className={`${"contentRow"} ${styles.titleFilters}`}
+          style={{ marginTop: "2rem" }}>
           <Title
             text="NPS AP Ecom"
             style={{ fontSize: "var(--title-default)", width: "100%" }}
