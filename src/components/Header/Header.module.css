@@ -19,7 +19,8 @@
 }
 
 .logo {
-  width: 144px;
+  width: auto;
+  height: 44px;
 }
 
 .listLinks {
@@ -66,7 +67,8 @@
   }
 
   .logo {
-    width: 120px;
+    width: auto;
+    height: 32px;
   }
 
   .selectStore {
@@ -87,7 +89,8 @@
   }
 
   .logo {
-    width: 120px;
+    width: auto;
+    height: 28px;
   }
 
   .selectStore {

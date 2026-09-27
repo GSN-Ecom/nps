@@ -1,7 +1,6 @@
 import calcNPS from "../components/TableNPS/calcNPS";
-import dados from "../data/dados_AP_Ecom.json";
-import storesEcom from "../data/stores_AP_Ecom.json";
 import calcVerb from "./useDetratores";
+import { useGlobal } from "./useGlobal";
 
 const currentYear = new Date().getFullYear();
 
@@ -74,12 +73,14 @@ function storeCutReplace(base) {
 }
 
 function useY2Y() {
+  const { data } = useGlobal();
+
   // construção dos arrays com dados Y2Y
   let currYear = months(currentYear);
   let prevYear = months(currentYear - 1);
 
   // base ano atual - 1. montagem
-  const base = dados.filter((resp) => {
+  const base = data.filter((resp) => {
     const dataResp = new Date(resp.data);
     return dataResp.getUTCFullYear() === currentYear;
   });
@@ -111,7 +112,7 @@ function useY2Y() {
 
   // inicio base comparativa ano anterior
   // 1. montagem
-  const baseComp = dados.filter((resp) => {
+  const baseComp = data.filter((resp) => {
     const dataResp = new Date(resp.data);
 
     return dataResp.getUTCFullYear() === currentYear - 1;
@@ -150,9 +151,11 @@ function useY2Y() {
 }
 
 function useCalcNps(inicio, fim) {
+  const { data, stores } = useGlobal();
+
   const notasDefault = () => [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   // construção da tabela de notas
-  const storesTableNPS = storesEcom
+  const storesTableNPS = stores
     .filter((e) => e.numStore !== 0)
     .map((store) => ({
       ...store,
@@ -201,7 +204,7 @@ function useCalcNps(inicio, fim) {
   const dataFim = toUTCDate(dataFimLocal);
 
   if (isSameDate(dataInicio, dataFim)) {
-    const base = dados.filter((resp) => {
+    const base = data.filter((resp) => {
       const dataResp = new Date(resp.data);
 
       return (
@@ -284,7 +287,7 @@ function useCalcNps(inicio, fim) {
 
     diaAnterior.setUTCDate(diaAnterior.getUTCDate() - 1);
 
-    const baseComp = dados.filter((resp) => {
+    const baseComp = data.filter((resp) => {
       const dataResp = new Date(resp.data);
 
       return (
@@ -318,7 +321,7 @@ function useCalcNps(inicio, fim) {
 
     fimPeriodo.setUTCDate(fimPeriodo.getUTCDate() + 1);
 
-    const base = dados.filter((resp) => {
+    const base = data.filter((resp) => {
       const dataResp = new Date(resp.data);
 
       return dataResp >= inicioPeriodo && dataResp < fimPeriodo;
@@ -374,7 +377,7 @@ function useCalcNps(inicio, fim) {
 
     dataInicioComp.setUTCDate(dataInicioComp.getUTCDate() - quantidadeDias);
 
-    const baseComp = dados.filter((resp) => {
+    const baseComp = data.filter((resp) => {
       const dataResp = new Date(resp.data);
 
       return dataResp >= dataInicioComp && dataResp < inicioPeriodo;

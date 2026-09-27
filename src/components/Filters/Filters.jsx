@@ -6,7 +6,7 @@ import { useGlobal } from "../../hooks/useGlobal.jsx";
 import Breadcrumb from "../Breadcrumb/Breadcrumb.jsx";
 
 const Filters = () => {
-  const { date, setDate } = useGlobal();
+  const { date, setDate, typeBusiness } = useGlobal();
 
   return (
     <>
@@ -16,7 +16,9 @@ const Filters = () => {
           className={`${"contentRow"} ${styles.titleFilters}`}
           style={{ marginTop: "2rem" }}>
           <Title
-            text="NPS AP Ecom"
+            text={
+              typeBusiness !== "LojaF" ? "NPS AP Ecom" : "NPS AP Loja Física"
+            }
             style={{ fontSize: "var(--title-default)", width: "100%" }}
           />
           <div

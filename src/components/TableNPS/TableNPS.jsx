@@ -209,6 +209,8 @@ const CustomerResp = ({ dados }) => {
     selectedDetr,
     page,
     setPage,
+    data,
+    typeBusiness,
   } = useGlobal();
 
   // modal pedido/cliente
@@ -397,7 +399,15 @@ const CustomerResp = ({ dados }) => {
               Nota NPS: <b>{content?.nota_NPS}</b>
             </p>
             <p className="textDefault">
-              Pedido: <b>{content?.pedido}</b>
+              {typeBusiness !== "LojaF" ? (
+                <>
+                  Pedido: <b>{content?.pedido}</b>
+                </>
+              ) : (
+                <>
+                  Pedido: <b>{String(content?.pedido).replace(/\d/g, "-")}</b>
+                </>
+              )}
             </p>
             <p className="textDefault">
               Data: <b>{dataFormatada(content?.data)}</b>
@@ -454,7 +464,9 @@ const CustomerResp = ({ dados }) => {
                       openModal();
                     }}
                     style={{ cursor: "pointer" }}>
-                    {verb.pedido}
+                    {typeBusiness !== "LojaF"
+                      ? verb.pedido
+                      : String(verb.pedido).replace(/\d/g, "-")}
                   </p>
                   <p
                     className={`${"textDefault"} ${styles.cell}
@@ -472,7 +484,9 @@ const CustomerResp = ({ dados }) => {
                     {ocultarTexto(verb.nome, "nome")}
                   </p>
                   <p className={`${"textDefault"} ${styles.cell}`}>
-                    {verb.delivery}
+                    {typeBusiness !== "LojaF"
+                      ? verb.delivery
+                      : String(verb.delivery).replace(/\w/g, "-")}
                   </p>
 
                   <p className={`${"textDefault"} ${styles.cell}`}>

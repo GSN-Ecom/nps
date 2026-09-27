@@ -1,8 +1,10 @@
-import BottomBar from "../../components/BottomBar/BottomBar";
+// components
+import Header from "../../components/Header/Header";
 import { NPSReviews } from "../../components/Charts/NPSReviews";
 import Filters from "../../components/Filters/Filters";
-import Header from "../../components/Header/Header";
 import { TableNPS } from "../../components/TableNPS/TableNPS";
+import BottomBar from "../../components/BottomBar/BottomBar";
+// context
 import { useGlobal } from "../../hooks/useGlobal";
 import { useCalcNps, useY2Y } from "../../hooks/useNPS";
 

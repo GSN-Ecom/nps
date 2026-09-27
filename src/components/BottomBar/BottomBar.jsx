@@ -7,6 +7,7 @@ import IconMenu from "../../assets/icons/IconMenu";
 import useModal from "../../hooks/useModal";
 import IconDetrator from "../../assets/icons/IconDetrator";
 import Modal from "../Modal/Modal";
+import { useGlobal } from "../../hooks/useGlobal";
 
 // PENDENCIAS
 // criar menu mobile
@@ -15,6 +16,7 @@ import Modal from "../Modal/Modal";
 
 export default function BottomBar() {
   const { isOpen, openModal, closeModal } = useModal();
+  const { typeBusiness } = useGlobal();
 
   return (
     <>
@@ -37,15 +39,17 @@ export default function BottomBar() {
           />
           <p className="textLabel">Detratores</p>
         </NavLink>
-        <NavLink to="/corte-substituicao" className={`${styles.slot}`}>
-          <IconChange
-            className="icon"
-            width="24px"
-            height="24px"
-            color="var(--gray-08)"
-          />
-          <p className="textLabel">Cort/Subst.</p>
-        </NavLink>
+        {typeBusiness !== "LojaF" && (
+          <NavLink to="/corte-substituicao" className={`${styles.slot}`}>
+            <IconChange
+              className="icon"
+              width="24px"
+              height="24px"
+              color="var(--gray-08)"
+            />
+            <p className="textLabel">Cort/Subst.</p>
+          </NavLink>
+        )}
         <NavLink to="" className={`${styles.slot}`} onClick={() => openModal()}>
           <IconMenu className="icon" width="28px" height="28px" />
           <p className="textLabel">Menu</p>

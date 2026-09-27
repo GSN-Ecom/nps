@@ -11,6 +11,7 @@ import IconFilter from "../../assets/icons/IconFilter";
 
 const FiltersVerb = () => {
   const {
+    typeBusiness,
     date,
     setDate,
     stores,
@@ -186,16 +187,18 @@ const FiltersVerb = () => {
         </div>
         <div className={styles.slot}>
           <p className="textDefault">Entrega:</p>
-          <SelectFilter
-            options={activeDelivery}
-            valueCurr={modalValues.delivery || "Todos os tipos"}
-            changeValue={(event) =>
-              setModalValues((current) => ({
-                ...current,
-                delivery: event,
-              }))
-            }
-          />
+          {typeBusiness !== "LojaF" && (
+            <SelectFilter
+              options={activeDelivery}
+              valueCurr={modalValues.delivery || "Todos os tipos"}
+              changeValue={(event) =>
+                setModalValues((current) => ({
+                  ...current,
+                  delivery: event,
+                }))
+              }
+            />
+          )}
         </div>
       </div>
       <div className={styles.btn}>
@@ -254,14 +257,16 @@ const FiltersVerb = () => {
                 changeValue={setSelectedRating}
               />
             </div>
-            <div className={`${styles.slot} ${styles.selectInput}`}>
-              <p className="textDefault">Entrega:</p>
-              <SelectFilter
-                options={activeDelivery}
-                valueCurr={selectedDelivery}
-                changeValue={setSelectedDelivery}
-              />
-            </div>
+            {typeBusiness !== "LojaF" && (
+              <div className={`${styles.slot} ${styles.selectInput}`}>
+                <p className="textDefault">Entrega:</p>
+                <SelectFilter
+                  options={activeDelivery}
+                  valueCurr={selectedDelivery}
+                  changeValue={setSelectedDelivery}
+                />
+              </div>
+            )}
             <div className={`${styles.slot} ${styles.selectInput}`}>
               <label htmlFor="dataInicio" className="textDefault">
                 Data inicial:

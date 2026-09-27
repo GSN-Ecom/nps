@@ -4,8 +4,19 @@ import { NavLink } from "react-router-dom";
 import ChangeBusiness from "../../assets/icons/IconChangeBusiness";
 import { useGlobal } from "../../hooks/useGlobal";
 
+// bases de dados
+import ecom_AP from "../../data/dados_AP_Ecom.json";
+import lojafisica_AP from "../../data/dados_AP_Loja.json";
+
 export default function Header() {
-  const { report } = useGlobal();
+  const {
+    setTypeBusiness,
+    setData,
+    typeBusiness,
+    setSelectedStore,
+    setSelectedRating,
+    setSelectedDelivery,
+  } = useGlobal();
 
   return (
     <nav className={styles.navBar}>
@@ -13,9 +24,21 @@ export default function Header() {
         <NavLink to="/" end>
           <img
             className={styles.logo}
-            src={logo.apoioEntrega.img}
-            alt={logo.apoioEntrega.alt}
-            title={logo.apoioEntrega.title}
+            src={
+              typeBusiness !== "LojaF"
+                ? logo.apoioEntrega.img
+                : logo.apoioMineiro.img
+            }
+            alt={
+              typeBusiness !== "LojaF"
+                ? logo.apoioEntrega.alt
+                : logo.apoioMineiro.alt
+            }
+            title={
+              typeBusiness !== "LojaF"
+                ? logo.apoioEntrega.title
+                : logo.apoioMineiro.title
+            }
           />
         </NavLink>
         <div className={styles.selectStore}></div>
@@ -27,16 +50,29 @@ export default function Header() {
         <NavLink to="/respostas" className={styles.link}>
           <p className="textDefault">Respostas</p>
         </NavLink>
-        <NavLink to="/corte-substituicao" className={styles.link}>
-          <p className="textDefault">Corte x Substituição</p>
-        </NavLink>
-        {/* <a href="#duvidas" className={styles.link}>
-          <p className="textDefault">Dúvidas</p>
-        </a> */}
+        {typeBusiness !== "LojaF" && (
+          <NavLink to="/corte-substituicao" className={styles.link}>
+            <p className="textDefault">Corte x Substituição</p>
+          </NavLink>
+        )}
         <NavLink
           to=""
           className={`${styles.link} ${styles.changeReport}`}
-          onClick={() => console.log("inserir clique aqui")}>
+          onClick={() => {
+            const isEcom = typeBusiness === "Ecom";
+            setData(isEcom ? lojafisica_AP : ecom_AP);
+            setTypeBusiness(isEcom ? "LojaF" : "Ecom");
+            setSelectedStore({
+              nroempresa: true,
+              name: "Todas as lojas",
+            });
+            setSelectedDelivery({
+              name: "Todas",
+            });
+            setSelectedRating({
+              name: "Todas",
+            });
+          }}>
           <ChangeBusiness
             className="icon"
             width="16px"
@@ -44,7 +80,7 @@ export default function Header() {
             color="#ce2b43"
           />
           <p className="textDefault">
-            {report !== "lojaF" ? "Mudar > Loja Física" : "Mudar > Ecom"}
+            {typeBusiness !== "LojaF" ? "Mudar > Loja F." : "Mudar > Ecom"}
           </p>
         </NavLink>
       </div>

@@ -1,15 +1,21 @@
 import { useState, useEffect, createContext, useMemo } from "react";
+import ecom_AP from "../data/dados_AP_Ecom.json";
 import storesList from "../data/stores_AP_Ecom.json";
-import lastUpdate from "../data/lastUpdate.json";
 import corteSubst_AP from "../data/corteSubst";
+import lastUpdate from "../data/lastUpdate.json";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const GlobalContext = createContext();
 
 export function GlobalContextProvider({ children }) {
-  // controle de base para consulta
-  const [reportCortSub, setReportCortSub] = useState(corteSubst_AP);
+  // BOTÃO TROCA DE RELATORIO ALTERA O ESTADO DOS COMPONENTES ABAIXO
+  // --------------------------------------------------------------------------
+  const [typeBusiness, setTypeBusiness] = useState("Ecom");
+  // Controle de exibição das respostas
+  const [data, setData] = useState(ecom_AP);
 
+  // base com os dados de cortexsubstituicao
+  const [reportCortSub, setReportCortSub] = useState(corteSubst_AP);
   const [storeCortSub, setStoreCortSub] = useState({ name: "Todas as lojas" });
 
   const filterCortSub = useMemo(
@@ -19,6 +25,11 @@ export function GlobalContextProvider({ children }) {
       ),
     [reportCortSub],
   );
+
+  // Lista de lojas
+  // controle lista de lojas e loja selecionada
+  const [stores, setStores] = useState(storesList);
+  // -------------------------------------------------------------------------
 
   // data e ano referencia para relatorios
   const [date, setDate] = useState(() => {
@@ -47,8 +58,7 @@ export function GlobalContextProvider({ children }) {
     localStorage.setItem("dateRange", JSON.stringify(date));
   }, [date]);
 
-  // controle lista de lojas e loja selecionada
-  const [stores, setStores] = useState(storesList);
+  // filtros
   const [selectedStore, setSelectedStore] = useState({
     nroempresa: true,
     name: "Todas as lojas",
@@ -83,6 +93,10 @@ export function GlobalContextProvider({ children }) {
   return (
     <GlobalContext.Provider
       value={{
+        data,
+        setData,
+        typeBusiness,
+        setTypeBusiness,
         reportCortSub,
         setReportCortSub,
         date,
