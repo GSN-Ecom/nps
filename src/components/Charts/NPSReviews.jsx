@@ -179,7 +179,7 @@ export function NPSReviews({
           display: true,
           text:
             typeChart === "scale-nps"
-              ? `NPS Geral - ${formatDate(date.inicio)} até ${formatDate(date.fim)}`
+              ? `NPS Geral`
               : `NPS Geral: ${year - 1} x ${year}`,
           color: textColPri,
           font: {
