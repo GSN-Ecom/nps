@@ -8,6 +8,12 @@ import useModal from "../../hooks/useModal";
 import IconDetrator from "../../assets/icons/IconDetrator";
 import Modal from "../Modal/Modal";
 import { useGlobal } from "../../hooks/useGlobal";
+import IconArrow from "../../assets/icons/IconArrow";
+import ChangeBusiness from "../../assets/icons/IconChangeBusiness";
+
+// bases de dados
+import ecom_AP from "../../data/dados_AP_Ecom.json";
+import lojafisica_AP from "../../data/dados_AP_Loja.json";
 
 // PENDENCIAS
 // criar menu mobile
@@ -16,11 +22,82 @@ import { useGlobal } from "../../hooks/useGlobal";
 
 export default function BottomBar() {
   const { isOpen, openModal, closeModal } = useModal();
-  const { typeBusiness } = useGlobal();
+  const {
+    typeBusiness,
+    setData,
+    setTypeBusiness,
+    setSelectedStore,
+    setSelectedDelivery,
+    setSelectedRating,
+  } = useGlobal();
+
+  const modalContent = (
+    <div className={styles.menuMobile}>
+      <NavLink to="/respostas" className={styles.slotMenuHamb}>
+        <IconVerb className="icon" width="28px" height="28px" />
+        <p className="textDefault">Respostas</p>
+        <IconArrow className="icon" width="16px" height="16px" />
+      </NavLink>
+      <NavLink to="/detratores" className={styles.slotMenuHamb}>
+        <IconDetrator
+          className="icon"
+          width="28px"
+          height="28px"
+          color="var(--gray-08)"
+        />
+        <p className="textDefault">Detratores</p>
+        <IconArrow className="icon" width="16px" height="16px" />
+      </NavLink>
+      {typeBusiness !== "LojaF" && (
+        <NavLink to="/corte-substituicao" className={styles.slotMenuHamb}>
+          <IconChange
+            className="icon"
+            width="28px"
+            height="28px"
+            color="var(--gray-08)"
+          />
+          <p className="textLabel">Cort/Subst.</p>
+          <IconArrow className="icon" width="16px" height="16px" />
+        </NavLink>
+      )}
+      <NavLink
+        to=""
+        className={styles.slotMenuHamb}
+        onClick={() => {
+          const isEcom = typeBusiness === "Ecom";
+          setData(isEcom ? lojafisica_AP : ecom_AP);
+          setTypeBusiness(isEcom ? "LojaF" : "Ecom");
+          setSelectedStore({
+            nroempresa: true,
+            name: "Todas as lojas",
+          });
+          setSelectedDelivery({
+            name: "Todas",
+          });
+          setSelectedRating({
+            name: "Todas",
+          });
+          closeModal();
+        }}>
+        <ChangeBusiness
+          className="icon"
+          width="26px"
+          height="26px"
+          color="var(--gray-08)"
+        />
+        <p className="textDefault">
+          {typeBusiness !== "LojaF"
+            ? "Acessar NPS Loja Física"
+            : "Acessar NPS Ecommerce"}
+        </p>
+        <IconArrow className="icon" width="16px" height="16px" />
+      </NavLink>
+    </div>
+  );
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={closeModal} content="..." />
+      <Modal isOpen={isOpen} onClose={closeModal} content={modalContent} />
       <nav className={styles.bottomBar}>
         <NavLink to="/" className={`${styles.slot}`}>
           <IconHome className="icon" width="28px" height="28px" />

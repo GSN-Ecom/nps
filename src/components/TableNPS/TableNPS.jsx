@@ -209,7 +209,6 @@ const CustomerResp = ({ dados }) => {
     selectedDetr,
     page,
     setPage,
-    data,
     typeBusiness,
   } = useGlobal();
 
@@ -405,7 +404,7 @@ const CustomerResp = ({ dados }) => {
                 </>
               ) : (
                 <>
-                  Pedido: <b>{String(content?.pedido).replace(/\d/g, "-")}</b>
+                  Pedido: <b>N/A</b>
                 </>
               )}
             </p>
@@ -416,7 +415,15 @@ const CustomerResp = ({ dados }) => {
               Nº loja: <b>{content?.nroempresa}</b>
             </p>
             <p className="textDefault">
-              Entrega: <b>{content?.delivery}</b>
+              {typeBusiness !== "LojaF" ? (
+                <>
+                  Entrega: <b>{content?.delivery}</b>
+                </>
+              ) : (
+                <>
+                  Entrega: <b>N/A</b>
+                </>
+              )}
             </p>
           </div>
         </div>
@@ -464,9 +471,7 @@ const CustomerResp = ({ dados }) => {
                       openModal();
                     }}
                     style={{ cursor: "pointer" }}>
-                    {typeBusiness !== "LojaF"
-                      ? verb.pedido
-                      : String(verb.pedido).replace(/\d/g, "-")}
+                    {typeBusiness !== "LojaF" ? verb.pedido : "N/A"}
                   </p>
                   <p
                     className={`${"textDefault"} ${styles.cell}
@@ -484,9 +489,7 @@ const CustomerResp = ({ dados }) => {
                     {ocultarTexto(verb.nome, "nome")}
                   </p>
                   <p className={`${"textDefault"} ${styles.cell}`}>
-                    {typeBusiness !== "LojaF"
-                      ? verb.delivery
-                      : String(verb.delivery).replace(/\w/g, "-")}
+                    {typeBusiness !== "LojaF" ? verb.delivery : "N/A"}
                   </p>
 
                   <p className={`${"textDefault"} ${styles.cell}`}>

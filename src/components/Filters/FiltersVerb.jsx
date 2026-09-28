@@ -185,9 +185,9 @@ const FiltersVerb = () => {
             }
           />
         </div>
-        <div className={styles.slot}>
-          <p className="textDefault">Entrega:</p>
-          {typeBusiness !== "LojaF" && (
+        {typeBusiness !== "LojaF" && (
+          <div className={styles.slot}>
+            <p className="textDefault">Entrega:</p>
             <SelectFilter
               options={activeDelivery}
               valueCurr={modalValues.delivery || "Todos os tipos"}
@@ -198,8 +198,8 @@ const FiltersVerb = () => {
                 }))
               }
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <div className={styles.btn}>
         <Button
