@@ -1,0 +1,109 @@
+@page {
+  size: A4 landscape;
+}
+
+@media print {
+  html,
+  body {
+    width: 100%;
+    margin: 1%;
+    padding: 0;
+    background: var(--aux-white) !important;
+    color: var(--gray-07) !important;
+    font-size: 10pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ocultar elementos */
+  .noPrint {
+    display: none !important;
+  }
+
+  /* atualizar estilos */
+  .navBar {
+    padding: 0.5rem 8% 0.25rem 10%;
+    background: var(--aux-white);
+    border-bottom: 1px solid var(--gray-01);
+    box-shadow: none;
+    position: static !important;
+  }
+
+  .contentRowChart {
+    flex-direction: row !important;
+    width: 100% !important;
+    padding: 2% 8%;
+  }
+
+  .contentColChart {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  .chartPrint {
+    width: 100% !important;
+  }
+
+  canvas {
+    max-width: 100% !important;
+    max-height: 360px !important;
+  }
+
+  .date {
+    display: flex;
+  }
+
+  .blockTitle {
+    padding: 2% 8% 0 8%;
+  }
+  .printTitle {
+    font-size: 16pt !important;
+    color: var(--gray-07) !important;
+  }
+
+  .printTableStore {
+    padding: 2% 8%;
+    position: static !important;
+    overflow: visible !important;
+    background: none !important;
+  }
+
+  .printCell {
+    display: flex !important;
+    padding: 0.125rem 0.25rem !important;
+    flex: 0.3 !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .printCell:nth-child(2) {
+    flex: 1 !important;
+    justify-content: initial !important;
+    align-items: initial !important;
+    text-align: initial !important;
+  }
+
+  .printCell:nth-child(n + 7):nth-child(-n + 17) {
+    display: flex !important;
+    flex: 0.3 !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    cursor: pointer !important;
+  }
+
+  .printCell:nth-child(18),
+  .printCell:nth-child(19),
+  .printCell:nth-child(20) {
+    display: none !important;
+  }
+  .printHeaderTable .printCell:last-child,
+  .printRowTable .printCell:last-child {
+    display: none !important;
+  }
+
+  .printRowTable .printCell:last-child {
+    min-width: 100% !important;
+    flex-wrap: wrap !important;
+    padding: 0.5rem 0.25rem;
+  }
+}

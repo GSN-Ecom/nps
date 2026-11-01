@@ -1,0 +1,27 @@
+.paginationBlock {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  padding: 2rem 0;
+}
+
+.rowBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 2rem;
+}
+/* primary button */
+.btn :global(.p-button) {
+  width: 100%;
+  align-items: center;
+  background: var(--ap-primary);
+  border: 1px solid var(--ap-primary);
+}
+.btn:last-child {
+  gap: 0.75rem;
+  padding-right: 0.5rem;
+  flex-direction: row-reverse;
+}

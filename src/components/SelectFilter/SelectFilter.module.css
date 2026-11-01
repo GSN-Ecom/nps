@@ -1,0 +1,25 @@
+.dropdown {
+  align-items: center;
+  width: 200px;
+  height: 40px;
+}
+
+:global(.p-dropdown-items),
+:global(.p-dropdown) {
+  font-family: var(--sans);
+  font-size: var(--text-default);
+}
+
+:global(.p-dropdown-panel) {
+  z-index: 99999999 !important;
+}
+
+.dropdown span {
+  font-size: var(--text-default);
+}
+
+@media (max-width: 1023px) {
+  .dropdown {
+    width: 100%;
+  }
+}

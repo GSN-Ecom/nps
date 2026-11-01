@@ -1,0 +1,30 @@
+.float {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  position: fixed;
+  margin: 1.5rem -0.5rem 1.5rem 1.5rem;
+  padding: 0.5rem 1.5rem 0.5rem 1rem;
+  border-radius: var(--radius-small);
+  border: 1px solid var(--gray-03);
+  bottom: 0;
+  right: 0;
+  background: var(--gray-01);
+  cursor: pointer;
+}
+
+.float:hover {
+  background: var(--aux-green-02);
+  border: 1px solid var(--aux-green);
+}
+
+.icon,
+p {
+  color: var(--gray-07);
+}
+
+.float:hover .icon,
+.float:hover p {
+  color: var(--aux-green);
+}

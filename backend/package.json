@@ -1,0 +1,14 @@
+{
+  "name": "nps-dashboard-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "importar": "node src/importar.js",
+    "gerar": "node src/gerarJson.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "pg": "^8.23.1"
+  }
+}

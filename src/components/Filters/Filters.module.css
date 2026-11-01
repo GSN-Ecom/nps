@@ -1,0 +1,316 @@
+.tools {
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: column;
+  padding: 1rem 0 2rem 0;
+}
+
+.titleFilters {
+  display: flex;
+  gap: 0.5rem !important;
+  align-items: end !important;
+}
+
+.dateFilter {
+  display: flex;
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+}
+
+.rowFilters {
+  display: flex;
+  justify-content: space-between !important;
+  gap: 1rem;
+}
+
+.rowFilters label,
+.rowFilters p {
+  padding-bottom: 0.25rem;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar :global(.p-button) {
+  background: var(--ap-primary);
+  border: 1px solid var(--ap-primary);
+  color: var(--aux-white);
+}
+
+.calendar :global(.p-button):hover {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.calendar :global(.p-inputtext) {
+  font-family: var(--sans);
+  color: var(--text);
+  font-size: var(--text-default);
+}
+
+/* tags detratores */
+.detrTags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+}
+
+.detrTag {
+  background: var(--bg-02);
+  border: 1px solid var(--gray-03);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+.detrTag:hover,
+.detrTagActive {
+  background: var(--aux-red-02);
+  border: 1px solid var(--aux-red);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+.slot,
+.calendar {
+  max-width: 100% !important;
+}
+
+.filters:last-child {
+  flex-direction: column;
+}
+
+.calendar {
+  width: 160px !important;
+  height: 40px;
+}
+
+.labelTags {
+  width: 100%;
+  color: var(--aux-red) !important;
+}
+
+.openFilterModal {
+  display: none;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tools {
+    padding-bottom: 1.5rem;
+  }
+
+  .selectInput {
+    display: none;
+  }
+
+  .titleFilters {
+    align-items: end !important;
+  }
+
+  .slot,
+  .calendar {
+    width: 100% !important;
+  }
+
+  /* filtro de datas */
+  .titleFilters {
+    display: flex;
+    gap: 0.5rem !important;
+    flex-direction: row;
+  }
+
+  .dateFilter {
+    display: flex;
+    width: 100%;
+  }
+
+  .filters {
+    width: 100% !important;
+  }
+
+  .rowFilters {
+    display: flex;
+    flex-direction: row !important;
+    gap: 2rem;
+    width: 100%;
+  }
+
+  /* tags detratores */
+  .detrTags {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 0rem 0 0.5rem 0;
+  }
+  .detrTags p {
+    text-wrap: nowrap;
+  }
+  .detrTag {
+    width: fit-content !important;
+  }
+
+  .btn {
+    display: flex;
+    gap: 1rem;
+    padding-top: 2rem;
+  }
+
+  /* modal conteudo filtro */
+  .modalFilters {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0 0 0;
+    gap: 1rem;
+  }
+
+  .btn {
+    display: flex;
+    gap: 1rem;
+    padding-top: 2rem;
+  }
+  /* primary button */
+  .btn :global(.p-button) {
+    width: 100%;
+    background: var(--ap-primary);
+    border: 1px solid var(--ap-primary);
+  }
+  .btnPrimary :global(.p-button-label) {
+    font-family: var(--sans);
+    color: var(--aux-white);
+  }
+  .btnPrimary :global(.p-badge) {
+    color: var(--ap-primary) !important;
+  }
+  .openFilterModal {
+    display: flex;
+    gap: 1rem;
+  }
+  .filterBtn {
+    display: flex;
+    align-self: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border-radius: var(--radius-small);
+    width: fit-content;
+    background: var(--gray-01);
+    border: 1px solid var(--ap-primary);
+    color: var(--ap-primary) !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .tools {
+    padding: 0 0 1rem 0;
+    gap: 0;
+  }
+
+  .selectInput {
+    display: none;
+  }
+
+  .calendar {
+    width: 100%;
+  }
+
+  /* filtro de datas */
+  .titleFilters {
+    display: flex;
+    gap: 0.5rem !important;
+    flex-direction: column;
+  }
+
+  .dateFilter {
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .filters {
+    width: 100% !important;
+  }
+
+  .rowFilters {
+    display: flex;
+    flex-direction: row !important;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .slot,
+  .calendar {
+    width: 100% !important;
+  }
+
+  /* tags detratores */
+  .detrTags {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 0rem 0 0.5rem 0;
+  }
+  .detrTags p {
+    text-wrap: nowrap;
+  }
+  .detrTag {
+    width: fit-content !important;
+  }
+
+  /* modal conteudo filtro */
+  .modalFilters {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0 0 0;
+    gap: 1rem;
+  }
+
+  .openFilterModal {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .filterBtn {
+    display: flex;
+    align-self: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border-radius: var(--radius-small);
+    width: fit-content;
+    background: var(--gray-01);
+    border: 1px solid var(--ap-primary);
+    color: var(--ap-primary) !important;
+  }
+
+  .modalFilters .rowFilters {
+    flex-direction: column !important;
+  }
+
+  .btn {
+    display: flex;
+    gap: 1rem;
+    padding-top: 2rem;
+  }
+  /* primary button */
+  .btn :global(.p-button) {
+    width: 100%;
+    background: var(--ap-primary);
+    border: 1px solid var(--ap-primary);
+  }
+  .btnPrimary :global(.p-button-label) {
+    font-family: var(--sans);
+    color: var(--aux-white);
+  }
+  .btnPrimary :global(.p-badge) {
+    color: var(--ap-primary) !important;
+  }
+
+  /* :global(.p-datepicker) {
+    z-index: 99999999;
+  } */
+}

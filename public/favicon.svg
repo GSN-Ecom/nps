@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD86A"/>
+      <stop offset="1" stop-color="#C89216"/>
+    </linearGradient>
+  </defs>
+  <!-- ribbon -->
+  <path d="M21 6h9l-3 19-6-5-6 5 3-19h3z" fill="#1749BD"/>
+  <path d="M34 6h9l3 19-6-5-6 5 3-19h3z" fill="#0E2C71"/>
+  <!-- medal -->
+  <circle cx="32" cy="39" r="18" fill="url(#gold)" stroke="#8A650E" stroke-width="2"/>
+  <circle cx="32" cy="39" r="13" fill="none" stroke="#FFF4C2" stroke-width="2"/>
+  <!-- star -->
+  <path d="m32 29.5 2.8 5.7 6.3.9-4.55 4.4 1.08 6.25L32 43.8l-5.63 2.95 1.08-6.25-4.55-4.4 6.3-.9z"
+        fill="#FFF4C2"/>
+</svg>

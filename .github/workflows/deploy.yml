@@ -1,0 +1,91 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          lfs: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Verify JSON files
+        run: |
+          for file in src/data/*.json; do
+            [ -f "$file" ] || continue
+
+            echo "Verificando: $file"
+
+            if head -n 1 "$file" | grep -q "git-lfs.github.com/spec/v1"; then
+              echo "ERRO: $file ainda é um ponteiro LFS"
+              exit 1
+            fi
+
+            node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$file" || exit 1
+          done
+
+      - name: Verify JSON files
+        run: |
+          echo "Verificando arquivos JSON..."
+
+          for file in src/data/*.json; do
+            [ -f "$file" ] || continue
+
+            echo "Verificando: $file"
+
+            if head -n 1 "$file" | grep -q "git-lfs.github.com/spec/v1"; then
+              echo "ERRO: $file ainda é um ponteiro LFS"
+              exit 1
+            fi
+
+            node -e "JSON.parse(require('fs').readFileSync(process.argv[1], 'utf8'))" "$file" || exit 1
+          done
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
